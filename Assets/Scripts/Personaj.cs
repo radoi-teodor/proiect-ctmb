@@ -12,6 +12,11 @@ public class Personaj : MonoBehaviour
     public float forta = 500;
 
     [Space]
+    public GameObject leftLimit;
+    public GameObject rightLimit;
+    public float downLimit = -10;
+
+    [Space]
     [Header("UI")]
     public Text scorTX;
 
@@ -60,6 +65,12 @@ public class Personaj : MonoBehaviour
         anim.SetFloat("Move", Mathf.Abs(x));
         anim.SetBool("Grounded", isGrounded);
 
+        if (x > 0 && transform.position.x > rightLimit.transform.position.x)
+            return;
+
+        if (x < 0 && transform.position.x < leftLimit.transform.position.x)
+            return;
+
         Vector3 pos = new Vector3();
         pos = transform.position;
         pos.x += x * viteza * Time.deltaTime;
@@ -75,7 +86,7 @@ public class Personaj : MonoBehaviour
             anim.SetTrigger("Jump");
         }
 
-        if (transform.position.y < -10)
+        if (transform.position.y < downLimit)
         {
             GameManager.manager.GameOver();
         }
