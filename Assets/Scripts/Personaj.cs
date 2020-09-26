@@ -35,10 +35,18 @@ public class Personaj : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
-        scorTX.text = "Scor: 0";
+        if(Application.loadedLevelName == "Level1")
+        {
+            PlayerPrefs.DeleteKey("score");
+        }
+        else
+        {
+            scor = PlayerPrefs.GetInt("score");
+        }
+
+        scorTX.text = "Scor: " + scor.ToString();
 
         gameObject.tag = "Player";
-
     }
 
     // Update is called once per frame
@@ -121,7 +129,11 @@ public class Personaj : MonoBehaviour
 
         scor++;
         scorTX.text = "Scor: " + scor.ToString();
-    
+    }
+
+    public void salveaza_scor()
+    {
+        PlayerPrefs.SetInt("score", scor);
     }
 
 }

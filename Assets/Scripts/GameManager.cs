@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        FindObjectOfType<Personaj>().over = true;
         gameOverPan.SetActive(true);
         eventSystem.SetActive(true);
 
@@ -65,6 +66,11 @@ public class GameManager : MonoBehaviour
 
     public void NextScene()
     {
+        Personaj p = FindObjectOfType<Personaj>();
+
+        if (p.over)
+            return;
+
         if (nextLevel.Trim() != "")
         {
             Application.LoadLevel(nextLevel);
@@ -74,6 +80,7 @@ public class GameManager : MonoBehaviour
             string sceneName = Application.loadedLevelName;
             int sceneNumber = int.Parse(sceneName.ToCharArray()[sceneName.Length - 1].ToString()) + 1;
             string levelName = "Level" + sceneNumber.ToString();
+            p.salveaza_scor();
             Application.LoadLevel(levelName);
         }
     }
